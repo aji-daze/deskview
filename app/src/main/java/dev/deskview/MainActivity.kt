@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), DesktopWebView.Callbacks {
     }
 
     private fun openDefaultNewTab() {
-        tabManager.openTab(prefs.wpAdminUrl.ifBlank { Prefs.CANVA_URL })
+        tabManager.openTab(prefs.wpUrlOrDefault)
     }
 
     private fun loadUrlFromInput() {
@@ -143,9 +143,8 @@ class MainActivity : AppCompatActivity(), DesktopWebView.Callbacks {
         if (savedTabs.isNotEmpty()) {
             savedTabs.forEachIndexed { index, url -> tabManager.openTab(url, activate = index == 0) }
         } else {
-            val wpUrl = prefs.wpAdminUrl.ifBlank { null }
-            wpUrl?.let { tabManager.openTab(it, activate = true) }
-            tabManager.openTab(Prefs.CANVA_URL, activate = wpUrl == null)
+            tabManager.openTab(prefs.wpUrlOrDefault, activate = true)
+            tabManager.openTab(Prefs.CANVA_URL, activate = false)
         }
     }
 
@@ -220,7 +219,9 @@ class MainActivity : AppCompatActivity(), DesktopWebView.Callbacks {
             .setTitle(R.string.dialog_settings_title)
             .setView(input)
             .setPositiveButton(R.string.dialog_ok) { _, _ ->
-                prefs.wpAdminUrl = input.text.toString().trim()
+                // スキーム抜け（example.com/wp-admin）は https:// を補う
+                val raw = input.text.toString().trim()
+                prefs.wpAdminUrl = if (raw.isEmpty() || raw.startsWith("http://") || raw.startsWith("https://")) raw else "https://$raw"
             }
             .setNegativeButton(R.string.dialog_cancel, null)
             .show()
