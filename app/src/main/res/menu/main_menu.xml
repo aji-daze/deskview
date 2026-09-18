@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_add_bookmark"
+        android:title="@string/menu_add_bookmark" />
+    <item
+        android:id="@+id/menu_bookmark_list"
+        android:title="@string/menu_bookmark_list" />
+    <item
+        android:id="@+id/menu_fullscreen"
+        android:title="@string/menu_fullscreen" />
+    <item
+        android:id="@+id/zoom_80"
+        android:title="ズーム 80%" />
+    <item
+        android:id="@+id/zoom_90"
+        android:title="ズーム 90%" />
+    <item
+        android:id="@+id/zoom_100"
+        android:title="ズーム 100%" />
+    <item
+        android:id="@+id/zoom_110"
+        android:title="ズーム 110%" />
+    <item
+        android:id="@+id/zoom_125"
+        android:title="ズーム 125%" />
+    <item
+        android:id="@+id/menu_open_external"
+        android:title="@string/menu_open_external" />
+    <item
+        android:id="@+id/menu_settings"
+        android:title="@string/menu_settings" />
+</menu>

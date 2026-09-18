@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DeskView</string>
+
+    <string name="action_back">戻る</string>
+    <string name="action_forward">進む</string>
+    <string name="action_reload">再読み込み</string>
+    <string name="action_menu">メニュー</string>
+    <string name="action_new_tab">新規タブ</string>
+    <string name="url_hint">URLを入力</string>
+
+    <string name="menu_add_bookmark">ブックマーク追加</string>
+    <string name="menu_bookmark_list">ブックマーク一覧</string>
+    <string name="menu_fullscreen">全画面</string>
+    <string name="menu_open_external">外部ブラウザで開く</string>
+    <string name="menu_settings">設定</string>
+
+    <string name="dialog_settings_title">設定</string>
+    <string name="dialog_wp_admin_hint">WordPress管理画面のURL（例: https://example.com/wp-admin/）</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">キャンセル</string>
+    <string name="dialog_bookmark_title_hint">ブックマーク名</string>
+    <string name="dialog_bookmark_added">ブックマークに追加しました</string>
+
+    <string name="dialog_webview_outdated_title">WebViewの更新が必要です</string>
+    <string name="dialog_webview_outdated_message">Android System WebViewのバージョンが古いため、Canvaなどが正しく動作しない可能性があります。ストアから更新してください。</string>
+    <string name="dialog_open_store">ストアを開く</string>
+    <string name="dialog_close">閉じる</string>
+</resources>
