@@ -13,6 +13,7 @@
     <string name="menu_bookmark_list">ブックマーク一覧</string>
     <string name="menu_fullscreen">全画面</string>
     <string name="menu_open_external">外部ブラウザで開く</string>
+    <string name="action_exit_fullscreen">全画面を解除</string>
     <string name="menu_settings">設定</string>
 
     <string name="dialog_settings_title">設定</string>

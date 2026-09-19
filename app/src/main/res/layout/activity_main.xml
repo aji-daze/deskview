@@ -102,6 +102,19 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <!-- 全画面中だけ出す解除ボタン。ハードウェアキーボードが無くても戻れるようにする -->
+    <ImageButton
+        android:id="@+id/btnExitFullscreen"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="12dp"
+        android:alpha="0.6"
+        android:background="@android:color/black"
+        android:contentDescription="@string/action_exit_fullscreen"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:visibility="gone" />
+
     <!-- 全画面動画・全画面編集用（onShowCustomView / onHideCustomView、設計書 6章） -->
     <FrameLayout
         android:id="@+id/fullscreenContainer"

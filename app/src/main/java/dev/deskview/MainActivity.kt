@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), DesktopWebView.Callbacks {
     private lateinit var mainLayout: View
     private lateinit var toolbar: LinearLayout
     private lateinit var tabBar: LinearLayout
+    private lateinit var btnExitFullscreen: ImageButton
     private lateinit var fullscreenContainer: FrameLayout
 
     private var pendingFileCallback: ValueCallback<Array<Uri>>? = null
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity(), DesktopWebView.Callbacks {
         mainLayout = findViewById(R.id.mainLayout)
         toolbar = findViewById(R.id.toolbar)
         tabBar = findViewById(R.id.tabBar)
+        btnExitFullscreen = findViewById(R.id.btnExitFullscreen)
         fullscreenContainer = findViewById(R.id.fullscreenContainer)
         etUrl = findViewById(R.id.etUrl)
         val webViewContainer: FrameLayout = findViewById(R.id.webViewContainer)
@@ -106,6 +108,7 @@ class MainActivity : AppCompatActivity(), DesktopWebView.Callbacks {
         }
         findViewById<ImageButton>(R.id.btnNewTab).setOnClickListener { openDefaultNewTab() }
         findViewById<ImageButton>(R.id.btnMenu).setOnClickListener { showOverflowMenu(it) }
+        btnExitFullscreen.setOnClickListener { toggleFullscreen() }
         etUrl.setOnEditorActionListener { _, _, _ -> loadUrlFromInput(); true }
     }
 
@@ -129,6 +132,8 @@ class MainActivity : AppCompatActivity(), DesktopWebView.Callbacks {
                 val webView = tabManager.activeWebView
                 when {
                     customView != null -> onHideCustomView()
+                    // 全画面中は戻るキーでまず全画面を解除する（操作不能になるのを防ぐ）
+                    isChromeHidden -> toggleFullscreen()
                     webView != null && webView.canGoBack() -> webView.goBack()
                     tabManager.tabCount > 1 -> tabManager.closeActiveTab()
                     else -> finish()
@@ -233,6 +238,8 @@ class MainActivity : AppCompatActivity(), DesktopWebView.Callbacks {
         isChromeHidden = !isChromeHidden
         toolbar.visibility = if (isChromeHidden) View.GONE else View.VISIBLE
         tabBar.visibility = if (isChromeHidden) View.GONE else View.VISIBLE
+        // 全画面中も解除ボタンだけは残す。キーボードが無い端末の唯一の出口になる
+        btnExitFullscreen.visibility = if (isChromeHidden) View.VISIBLE else View.GONE
         setImmersiveMode(isChromeHidden)
     }
 
