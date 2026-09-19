@@ -58,10 +58,15 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug --no-daemon
 
+      # APK が固定鍵で署名されたかを確認する。証明書の指紋は毎回同じになるはず。
       - name: Show APK signer
+        shell: bash
         run: |
+          set -euo pipefail
           APK=$(ls app/build/outputs/apk/debug/*.apk | head -1)
-          "$ANDROID_HOME"/build-tools/*/apksigner verify --print-certs "$APK" | head -5
+          APKSIGNER=$(ls -d "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+          echo "apksigner: $APKSIGNER"
+          "$APKSIGNER" verify --print-certs "$APK" | grep -E "DN:|SHA-256 digest"
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
