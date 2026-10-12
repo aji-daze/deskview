@@ -13,7 +13,8 @@ class TabManager(
     private val container: FrameLayout,
     private val tabStrip: LinearLayout,
     private val webViewFactory: () -> DesktopWebView,
-    private val onActiveTabChanged: (DesktopWebView) -> Unit
+    private val onActiveTabChanged: (DesktopWebView) -> Unit,
+    private val onAllTabsClosed: () -> Unit
 ) {
     private data class Tab(val webView: DesktopWebView, var title: String, val chip: TextView)
 
@@ -66,6 +67,7 @@ class TabManager(
         tab.webView.destroy()
         if (tabs.isEmpty()) {
             activeIndex = -1
+            onAllTabsClosed()
             return
         }
         activateTab(index.coerceAtMost(tabs.size - 1))

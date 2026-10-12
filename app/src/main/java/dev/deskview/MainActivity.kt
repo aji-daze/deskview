@@ -82,7 +82,9 @@ class MainActivity : AppCompatActivity(), DesktopWebView.Callbacks {
             container = webViewContainer,
             tabStrip = tabStrip,
             webViewFactory = { createWebView() },
-            onActiveTabChanged = { webView -> etUrl.setText(webView.url ?: "") }
+            onActiveTabChanged = { webView -> etUrl.setText(webView.url ?: "") },
+            // 最後のタブを長押しで閉じると操作できない白画面になるため、新しいタブを開き直す
+            onAllTabsClosed = { openDefaultNewTab() }
         )
 
         setupToolbar()
