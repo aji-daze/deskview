@@ -24,23 +24,14 @@ jobs:
           java-version: "17"
 
       # 署名鍵が実行ごとに変わると、端末側で「既存のパッケージと競合」して更新できない。
-      # 初回だけ固定鍵を生成してリポジトリに commit し、以降は同じ鍵で署名する。
-      - name: Ensure stable debug keystore
+      # 固定鍵は GitHub Secrets から復元する（鍵とパスワードはリポジトリに置かない）。
+      - name: Restore signing keystore
         if: github.event_name != 'pull_request'
+        env:
+          SIGNING_KEYSTORE_B64: ${{ secrets.SIGNING_KEYSTORE_B64 }}
         run: |
-          if [ ! -f keystore/deskview-debug.jks ]; then
-            mkdir -p keystore
-            keytool -genkeypair -noprompt \
-              -keystore keystore/deskview-debug.jks \
-              -storepass deskview -keypass deskview -alias deskview \
-              -keyalg RSA -keysize 2048 -validity 10000 \
-              -dname "CN=DeskView Debug, O=DeskView, C=JP"
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add keystore/deskview-debug.jks
-            git commit -m "Add fixed debug keystore so updates install over the previous build"
-            git push origin HEAD:main
-          fi
+          mkdir -p keystore
+          printf '%s' "$SIGNING_KEYSTORE_B64" | base64 -d > keystore/signing.p12
 
       # gradle-wrapper.jar はバイナリのためリポジトリに含めていない。
       # ここで Gradle 本体をセットアップし、wrapper ファイル一式を生成してから ./gradlew を使う。
@@ -56,6 +47,8 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build debug APK
+        env:
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: ./gradlew assembleDebug --no-daemon
 
       # APK が固定鍵で署名されたかを確認する。証明書の指紋は毎回同じになるはず。

@@ -22,3 +22,8 @@ captures/
 
 # Log files
 *.log
+
+# 署名鍵（GitHub Secrets から復元）
+keystore/
+*.p12
+*.jks

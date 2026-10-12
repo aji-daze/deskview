@@ -19,12 +19,13 @@ android {
     // これが無いと実行ごとに署名が変わり、更新インストールが「既存パッケージと競合」で失敗する。
     signingConfigs {
         getByName("debug") {
-            val ks = rootProject.file("keystore/deskview-debug.jks")
+            val ks = rootProject.file("keystore/signing.p12")
             if (ks.exists()) {
                 storeFile = ks
-                storePassword = "deskview"
+                storeType = "pkcs12"
+                storePassword = System.getenv("SIGNING_PASSWORD")
                 keyAlias = "deskview"
-                keyPassword = "deskview"
+                keyPassword = System.getenv("SIGNING_PASSWORD")
             }
         }
     }
